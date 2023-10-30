@@ -22,9 +22,9 @@ limit 10; -- ограничиваем результат 10ю строками
 ----------------------------------------------------------------------------------------
 
 -- lowest_average_income.csv
-with tab as( -- заворачиваю в 
+with tab as( -- создаем временную таблицу с необходимыми нам значениями
 select e.first_name, e.last_name, s.quantity, p.price,
-	avg(s.quantity * p.price) over () as average_income_all
+	avg(s.quantity * p.price) over () as average_income_all -- также считаем средний доход по всем продавцам
 from employees e
 left join sales s
 on e.employee_id = s.sales_person_id
@@ -32,11 +32,11 @@ left join products p
 on s.product_id = p.product_id
 )
 select
-	 first_name || ' ' || last_name as name,
-	 round(avg(quantity * price), 0) as average_income
+	 first_name || ' ' || last_name as name, -- объединяем столбцы с именем и фамилией в одно целое
+	 round(avg(quantity * price), 0) as average_income -- считаем средний доход сделки (каждого продавца)
 from tab
-group by 1, tab.average_income_all
-having round(avg(quantity * price), 0) < average_income_all
-order by 2;
+group by 1, tab.average_income_all -- группируем результат по имени продавца (и по среднему доходу по всем продавцам)
+having round(avg(quantity * price), 0) < average_income_all -- фильтруем результат, где средняя выручка за сделку меньше средней выручки за сделку по всем продавцам
+order by 2; -- сортируем результат по средней доходности по возрастанию
 
 ----------------------------------------------------------------------------------------
