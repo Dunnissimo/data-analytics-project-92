@@ -5,9 +5,9 @@ from customers;
 
 -- top_10_total_income.csv
 select 
-	 e.first_name || ' ' || e.last_name as name, -- объединяем столбцы с именем и фамилией в один из таблици employees
-	 count(s.sales_id) as operations, -- считаем кол-во проведенных сделок за все время из таблицы 
-	 sum(p.price * s.quantity) as income -- перемножаем кол-во проданного товара и его цену, чтобы получить выручку и суммирем результат, чтобы узнать суммарную выручку продавца за все время
+	 e.first_name || ' ' || e.last_name as name, -- объединяем столбцы с именем и фамилией в одно целое из таблици employees
+	 count(s.sales_id) as operations, -- считаем кол-во проведенных сделок за все время из таблицы sales
+	 sum(p.price * s.quantity) as income -- перемножаем кол-во проданного товара на его цену, чтобы получить выручку и суммирем результат, чтобы узнать суммарную выручку продавца за все время
 from employees e
 left join sales s -- объединяем таблицы employees и sales
 on e.employee_id = s.sales_person_id
