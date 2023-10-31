@@ -97,5 +97,26 @@ left join products p
 left join customers c
 	on s.customer_id = c.customer_id
 group by 1 -- группируем результат по месяцам
-order by 1 -- сортируем по месяцам
+order by 1; -- сортируем по месяцам
+
+---------------------------------------------------------------------------------------------
+
+-- special_offer.csv
+--
+
+select
+	c.customer_id,
+	c.first_name || ' ' || c.last_name as customer,
+	------------------ as sale_date,
+	e.first_name || ' ' || e.last_name as seller
+from employees e
+left join sales s
+	on e.employee_id = s.sales_person_id
+left join products p
+	on s.product_id = p.product_id
+left join customers c
+	on s.customer_id = c.customer_id
+order by 1
 ;
+
+-----------------------------------------------------------------------------------------------
