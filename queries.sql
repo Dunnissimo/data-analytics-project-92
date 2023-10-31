@@ -52,8 +52,8 @@ order by 2; -- сортируем результат по средней дох�
 with tab as( -- во временном запросе выводим все необходимые столбцы
 select 
 	e.first_name || ' ' || e.last_name as name, -- объединяем столбцы с именем и фамилией в одно целое
-	to_char(sale_date, 'day') as weekday,
-	to_char(sale_date, 'ID') as weekday_number,
+	to_char(sale_date, 'day') as weekday, -- извлекаем из даты название дня недели
+	to_char(sale_date, 'ID') as weekday_number, -- извлекаем из даты код дня недели (1-7 = понедельник-воскресенье), 
 	round(sum(p.price * s.quantity),0) as income
 from employees e
 left join sales s
