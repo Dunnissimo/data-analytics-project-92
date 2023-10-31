@@ -65,3 +65,19 @@ order by 3, 1
 )
 select name, weekday, income
 from tab;
+
+--------------------------------------------------------------------------------------------
+
+-- age_groups.csv
+-- Данный запрос выводит таблицу с количеством покупателей в разных возрастных группах
+
+select 
+	case 
+		when age between 16 and 25 then '16-25'
+		when age between 26 and 40 then '26-40'
+		when age >40 then '40+'
+	end as age_category,
+	count(age) as count
+from customers
+group by 1
+order by 1;
