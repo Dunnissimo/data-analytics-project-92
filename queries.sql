@@ -72,10 +72,10 @@ from tab;
 -- Данный запрос выводит таблицу с количеством покупателей в разных возрастных группах
 
 select 
-	case 
+	case -- проводим условную агрегацию, где 
 		when age between 16 and 25 then '16-25'
 		when age between 26 and 40 then '26-40'
-		when age >40 then '40+'
+		when age > 40 then '40+'
 	end as age_category,
 	count(age) as count
 from customers
