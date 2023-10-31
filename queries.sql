@@ -38,7 +38,7 @@ left join products p
 )
 select
 	 first_name || ' ' || last_name as name, -- объединяем столбцы с именем и фамилией в одно целое
-	 round(avg(quantity * price), 0) as average_income -- считаем средний доход сделки (каждого продавца)
+	 round(avg(quantity * price), 0) as average_income -- считаем средний доход сделки (каждого продавца), округлив результат до целого
 from tab
 group by 1, tab.average_income_all -- группируем результат по имени продавца (и по среднему доходу по всем продавцам)
 having round(avg(quantity * price), 0) < average_income_all -- фильтруем результат, где средняя выручка за сделку меньше средней выручки за сделку по всем продавцам
