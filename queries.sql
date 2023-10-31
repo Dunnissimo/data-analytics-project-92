@@ -61,9 +61,9 @@ left join sales s
 left join products p
 	on s.product_id = p.product_id
 group by 1, 2, 3
-order by 3, 1
+order by 3, 1 -- сортируем сначала по коду дня недели, потом по имени продавца
 )
-select name, weekday, income
+select name, weekday, income -- из временного запроса выводим все поля кроме кода дня недели, чтобы получить готовую красивую таблицу
 from tab;
 
 --------------------------------------------------------------------------------------------
