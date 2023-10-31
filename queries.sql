@@ -51,7 +51,7 @@ order by 2; -- сортируем результат по средней дох�
 
 with tab as( -- во временном запросе выводим все необходимые столбцы
 select 
-	e.first_name || ' ' || e.last_name as name,
+	e.first_name || ' ' || e.last_name as name, -- объединяем столбцы с именем и фамилией в одно целое
 	to_char(sale_date, 'day') as weekday,
 	to_char(sale_date, 'ID') as weekday_number,
 	round(sum(p.price * s.quantity),0) as income
