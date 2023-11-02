@@ -106,6 +106,7 @@ order by 1; -- сортируем по месяцам
 
 select
 	c.customer_id,
+	(select row_number() over (partition by (c.first_name || ' ' || c.last_name)) as row_nb,
 	c.first_name || ' ' || c.last_name as customer,
 	------------------ as sale_date,
 	e.first_name || ' ' || e.last_name as seller
@@ -116,7 +117,6 @@ left join products p
 	on s.product_id = p.product_id
 left join customers c
 	on s.customer_id = c.customer_id
-order by 1
 ;
 
 -----------------------------------------------------------------------------------------------
