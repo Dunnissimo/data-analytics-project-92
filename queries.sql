@@ -104,12 +104,12 @@ order by 1; -- сортируем по месяцам
 -- special_offer.csv
 -- Данный запрос выводит информацию о покупателях, первая покупка которых была в ходе проведения акций (цена акционного товара = 0)
 
-with tab1 as(
+with tab1 as( -- во временном запросе выводим все необходимые столбцы
 select
 	c.customer_id,
-	c.first_name || ' ' || c.last_name as customer,
+	c.first_name || ' ' || c.last_name as customer, -- объединяем столбцы с именем и фамилией покупателя в одно целое
 	sale_date,
-	e.first_name || ' ' || e.last_name as seller,
+	e.first_name || ' ' || e.last_name as seller, -- объединяем столбцы с именем и фамилией в одно целое
 	(row_number() over (order by sale_date)) as row_nb
 from employees e
 left join sales s
@@ -119,7 +119,7 @@ left join products p
 left join customers c
 	on s.customer_id = c.customer_id
 where price = 0
-), tab2 as(
+), tab2 as( -- во втором временном запросе узнаем самые первые операции по акционным товарам
 select
 	customer_id,
 	customer,
@@ -127,10 +127,10 @@ select
 	min(seller) as seller,
 	min(row_nb) as first_purchase
 from tab1
-group by 1, 2
+group by 1, 2 
 order by 1
 )
-select customer, sale_date, seller
+select customer, sale_date, seller -- достаем из второго временного запроса необходимые нам поля (без row number и id)
 from tab2
 ;
 
