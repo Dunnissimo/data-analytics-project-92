@@ -109,17 +109,17 @@ select
 	c.customer_id,
 	c.first_name || ' ' || c.last_name as customer, -- объединяем столбцы с именем и фамилией покупателя в одно целое
 	sale_date,
-	e.first_name || ' ' || e.last_name as seller, -- объединяем столбцы с именем и фамилией в одно целое
-	(row_number() over (order by sale_date)) as row_nb
+	e.first_name || ' ' || e.last_name as seller, -- объединяем столбцы с именем и фамилией продавца в одно целое
+	(row_number() over (order by sale_date)) as row_nb -- производим счет строк, сортированных по дате 
 from employees e
-left join sales s
+left join sales s -- объединяем несколько необходимых таблиц
 	on e.employee_id = s.sales_person_id
 left join products p
 	on s.product_id = p.product_id
 left join customers c
 	on s.customer_id = c.customer_id
-where price = 0
-), tab2 as( -- во втором временном запросе узнаем самые первые операции по акционным товарам
+where price = 0 -- ставим фильтр по акционным товарам (их цена равна нулю)
+), tab2 as( -- во втором временном запросе узнаем самые первые операции по акционным товарам из первого временного запроса
 select
 	customer_id,
 	customer,
@@ -128,7 +128,7 @@ select
 	min(row_nb) as first_purchase
 from tab1
 group by 1, 2 
-order by 1
+order by 1 -- сортируем по id покупателя
 )
 select customer, sale_date, seller -- достаем из второго временного запроса необходимые нам поля (без row number и id)
 from tab2
