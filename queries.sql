@@ -104,12 +104,13 @@ order by 1; -- сортируем по месяцам
 -- special_offer.csv
 -- Данный запрос выводит информацию о покупателях, первая покупка которых была в ходе проведения акций (цена акционного товара = 0)
 
+with tab1 as(
 select
 	c.customer_id,
-	(select row_number() over (partition by (c.first_name || ' ' || c.last_name)) as row_nb,
 	c.first_name || ' ' || c.last_name as customer,
-	------------------ as sale_date,
-	e.first_name || ' ' || e.last_name as seller
+	sale_date,
+	e.first_name || ' ' || e.last_name as seller,
+	(row_number() over (order by sale_date)) as row_nb
 from employees e
 left join sales s
 	on e.employee_id = s.sales_person_id
@@ -117,6 +118,20 @@ left join products p
 	on s.product_id = p.product_id
 left join customers c
 	on s.customer_id = c.customer_id
+where price = 0
+), tab2 as(
+select
+	customer_id,
+	customer,
+	min(sale_date) as sale_date,
+	min(seller) as seller,
+	min(row_nb) as first_purchase
+from tab1
+group by 1, 2
+order by 1
+)
+select customer, sale_date, seller
+from tab2
 ;
 
 -----------------------------------------------------------------------------------------------
