@@ -3,14 +3,3 @@
 "1992-10",230,8358113699
 "1992-11",228,8031353738
 "1992-12",229,7708189847
-0,"select 
-	 to_char(sale_date, 'YYYY-MM') as date, -- приводим дату к году и месяцу
-	 count(distinct c.customer_id) as total_customers, -- считаем кол-во уникальных клиентов (потом группируем их по месяцам)
-	 round(sum(p.price * s.quantity),0) as income -- считаем общий доход от клиентов, округлв результат до целого
-from sales s
-left join products p
-	on s.product_id = p.product_id
-left join customers c
-	on s.customer_id = c.customer_id
-group by 1 -- группируем результат по месяцам
-order by 1; -- сортируем по месяцам",Sat Nov 04 14:28:06 MSK 2023,
