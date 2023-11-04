@@ -90,7 +90,7 @@ order by 1; -- сортируем по возрастным категориям
 
 select 
 	 to_char(sale_date, 'YYYY-MM') as date, -- приводим дату к году и месяцу
-	 count(c.customer_id) as total_customers, -- считаем кол-во уникальных клиентов (потом группируем их по месяцам)
+	 count(distinct c.customer_id) as total_customers, -- считаем кол-во уникальных клиентов (потом группируем их по месяцам)
 	 round(sum(p.price * s.quantity),0) as income -- считаем общий доход от клиентов, округлв результат до целого
 from sales s
 left join products p
