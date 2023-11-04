@@ -12,7 +12,7 @@ from customers;
 select 
 	 e.first_name || ' ' || e.last_name as name, -- объединяем столбцы с именем и фамилией в одно целое из таблици employees
 	 count(s.sales_id) as operations, -- считаем кол-во проведенных сделок за все время из таблицы sales
-	 truncate(sum(p.price * s.quantity),0) as income -- перемножаем кол-во проданного товара на его цену, и суммируем, чтобы узнать общую выручку продавца за все время (и округляем в меньшую сторону)
+	 floor(sum(p.price * s.quantity)) as income -- перемножаем кол-во проданного товара на его цену, и суммируем, чтобы узнать общую выручку продавца за все время (и округляем в меньшую сторону)
 from employees e
 left join sales s -- объединяем таблицы employees и sales
 	on e.employee_id = s.sales_person_id
